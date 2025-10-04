@@ -1,0 +1,25 @@
+<!-- this page copies the url -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access Token Copier</title>
+</head>
+<body>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const token = params.get('access_token');
+
+if(token){
+    navigator.clipboard.writeText(token).finally(() => {
+        window.location.href = 'https://leerling.somtoday.nl/rooster';
+    });
+} else {
+    alert('No access token found');
+}
+</script>
+
+</body>
+</html>
