@@ -1,24 +1,78 @@
-<!-- this page copies the url -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Access Token Copier</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 2rem;
+    }
+    #token {
+        word-break: break-all;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-width: 90%;
+        background-color: #f9f9f9;
+        margin-top: 20px;
+    }
+    button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+    #copyBtn {
+        background-color: #4CAF50;
+        color: white;
+    }
+    #doneBtn {
+        background-color: #2196F3;
+        color: white;
+    }
+</style>
 </head>
 <body>
+
+<h2>Your Access Token</h2>
+<div>
+    <button id="copyBtn">Kopieer</button>
+    <button id="doneBtn">Klaar</button>
+</div>
+<div id="token">Loading...</div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
 const token = params.get('tokenInfo');
 
+const tokenDiv = document.getElementById('token');
+const copyBtn = document.getElementById('copyBtn');
+const doneBtn = document.getElementById('doneBtn');
+
 if(token){
-    navigator.clipboard.writeText(token).finally(() => {
-        window.location.href = 'https://leerling.somtoday.nl/rooster';
-    });
+    tokenDiv.textContent = token;
 } else {
-    alert('No access token found');
+    tokenDiv.textContent = 'No access token found';
+    copyBtn.disabled = true;
+    doneBtn.disabled = true;
 }
+
+copyBtn.addEventListener('click', () => {
+    if(token){
+        navigator.clipboard.writeText(token).then(() => {
+            alert('Token copied to clipboard!');
+        }).catch(() => {
+            alert('Failed to copy token.');
+        });
+    }
+});
+
+doneBtn.addEventListener('click', () => {
+    window.location.href = 'https://leerling.somtoday.nl/rooster';
+});
 </script>
 
 </body>
